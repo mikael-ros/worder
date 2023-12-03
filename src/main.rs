@@ -6,30 +6,32 @@ use std::collections::HashMap;
 struct Cli {
     /// The pattern to look for
    file: String,
-   term: String,
 }
 
-const content : String;
+
 
 fn main() {
     let args = Cli::parse();
-    content = std::fs::read_to_string(&args.file).expect("Could not read file!");
+    let content : String = std::fs::read_to_string(&args.file).expect("Could not read file!");
     let mut amounts = HashMap::new();
 
     for line in content.lines(){
         for word in line.split(" "){
-            if amounts.get(&word).copied().unwrap_or(0) == 0 {
-                amounts.insert(word, wordCounter(word));
+            if amounts.get(word).copied().unwrap_or(0) == 0 {
+                amounts.insert(word, word_counter(word, &content));
             }
         }
     }
 
-    for key in amounts {
-        println!("{}, {}", &key, amounts.get(&key));
+    let mut amount_vec: Vec<(&&str, &i32)> = amounts.iter().collect();
+    amount_vec.sort_by(|a, b| a.1.partial_cmp(b.1).unwrap());
+
+    for entry in amount_vec{
+        println!("{}, {}", entry.0, entry.1);
     }
 }
 
-fn wordCounter(term: String) -> i32 {
+fn word_counter(term: &str, content: &String) -> i32 {
     let mut counter = 0;
     for line in content.lines(){
         for word in line.split(" "){
