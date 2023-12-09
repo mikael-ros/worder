@@ -1,0 +1,1903 @@
+
+\documentclass[journal,comsoc]{IEEEtran}
+
+\usepackage[T1]{fontenc}% optional T1 font encoding
+
+\usepackage{titlesec}%tillåter fler nivåer av rubriker
+\usepackage{array}
+\usepackage{float}
+\usepackage{fancyref} % FINA REFERENSER
+\usepackage[table]{xcolor} % SHINY
+\usepackage{multicol} % Uppdelnnig i flera kolumner
+\usepackage{listings} % fina kodblock
+
+\setcounter{secnumdepth}{4}
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/pkg/ifpdf
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of the IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/pkg/cite
+% The documentation is contained in the cite.sty file itself.
+
+
+
+\usepackage[backend=biber, style=ieee, citestyle=numeric]{biblatex} % KÄLLHANTERING
+\addbibresource{sources.bib}
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+\usepackage{amsmath}
+
+\interdisplaylinepenalty=2500
+
+% Select a Times math font under comsoc mode or else one will automatically
+% be selected for you at the document start. This is required as Communications
+% Society journals use a Times, not Computer Modern, math font.
+\usepackage[cmintegrals]{newtxmath}
+% The freely available newtxmath package was written by Michael Sharpe and
+% provides a feature rich Times math font. The cmintegrals option, which is
+% the default under IEEEtran, is needed to get the correct style integral
+% symbols used in Communications Society journals. Version 1.451, July 28,
+% 2015 or later is recommended. Also, do *not* load the newtxtext.sty package
+% as doing so would alter the main text font.
+% http://www.ctan.org/pkg/newtx
+%
+% Alternatively, you can use the MathTime commercial fonts if you have them
+% installed on your system:
+%\usepackage{mtpro2}
+%\usepackage{mt11p}
+%\usepackage{mathtime}
+
+
+%\usepackage{bm}
+% The bm.sty package was written by David Carlisle and Frank Mittelbach.
+% This package provides a \bm{} to produce bold math symbols.
+% http://www.ctan.org/pkg/bm
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/pkg/algorithms
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/pkg/algorithmicx
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/array
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a larger sans serif font
+% than the serif footnote size font used in traditional IEEE formatting
+% and thus the need to invoke different subfig.sty package options depending
+% on whether compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/pkg/subfig
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure.
+% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
+% corrections already built into the system in which case a warning will
+% be issued if an attempt is made to load fixltx2e.sty as it is no longer
+% needed.
+% The latest version and documentation can be found at:
+% http://www.ctan.org/pkg/fixltx2e
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/pkg/dblfloatfix
+
+
+
+
+%\ifCLASSOPTIONcaptionsoff
+%  \usepackage[nomarkers]{endfloat}
+% \let\MYoriglatexcaption\caption
+% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+%\fi
+% endfloat.sty was written by James Darrell McCauley, Jeff Goldberg and 
+% Axel Sommerfeldt. This package may be useful when used in conjunction with 
+% IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
+% submissions have lists of figures/tables at the end of the paper and that
+% figures/tables without any captions are placed on a page by themselves at
+% the end of the document. If needed, the draftcls IEEEtran class option or
+% \CLASSINPUTbaselinestretch interface can be used to increase the line
+% spacing as well. Be sure and use the nomarkers option of endfloat to
+% prevent endfloat from "marking" where the figures would have been placed
+% in the text. The two hack lines of code above are a slight modification of
+% that suggested by in the endfloat docs (section 8.4.1) to ensure that
+% the full captions always appear in the list of figures/tables - even if
+% the user used the short optional argument of \caption[]{}.
+% IEEE papers do not typically make use of \caption[]'s optional argument,
+% so this should not be an issue. A similar trick can be used to disable
+% captions of packages such as subfig.sty that lack options to turn off
+% the subcaptions:
+% For subfig.sty:
+% \let\MYorigsubfloat\subfloat
+% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+% However, the above trick will not work if both optional arguments of
+% the \subfloat command are used. Furthermore, there needs to be a
+% description of each subfigure *somewhere* and endfloat does not add
+% subfigure captions to its list of figures. Thus, the best approach is to
+% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
+% and instead reference/explain all the subfigures within the main caption.
+% The latest version of endfloat.sty and its documentation can obtained at:
+% http://www.ctan.org/pkg/endfloat
+%
+% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
+% later in the document, say, to conditionally put the References on a 
+% page by themselves.
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/url
+% Basically, \url{my_url_here}.
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+\begin{document}
+
+\title{Minecraft:\\ Ett Wireshark äventyr}
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+
+\author{\vspace*{ 0.25 in} 
+\parbox{6 in}{\centering Faculty of Computer Science \\
+               \centering Lunds Tekniska Högskola, Lunds Universitet}  \\
+\vspace*{ 0.25 in} 
+\parbox{2 in}{ \centering Mikael Rosberg Embretsen \\
+{\tt\small  mi5364ro-s@student.lu.se }}
+\parbox{2 in}{\centering Emanuel Lindh \\
+{\tt\small em2613li-s@student.lu.se}}
+\parbox{2 in}{ \centering Hampus Niskala \\
+{\tt\small ha6584ni-s@student.lu.se}}}
+
+\markboth{EITF45 Datorkommunikation | Minecraft: Ett Wireshark Äventyr}%
+{Rosberg Embretsen \MakeLowercase{\textit{et al.}}: Minecraft: Ett Wireshark Äventyr}
+
+\maketitle
+
+\begin{abstract}
+  Minecraft, the worlds possibly most popular video game, relies on independently hosted servers. The purpose of this report is to analyze this connection in terms of protocols, bandwidth, and security. Secondarily, we want to analyze attack vectors in the form of resource packs.
+  It was shown that Minecraft uses TCP, ASN.1 and DER encryption, and that server resource packs (and any file, for that matter, are able to be downloaded directly from the link provided from the server, and that it isn't easily achievable to send unrelated files in the zip archive, regardless of virality. The bandwidth usage proved to be fairly meagre.
+
+  %Minecraft, troligen världens mest populära spel, bygger på självständiga värd-servrar. Syftet med rapporten är att analysera uppkopplingen utifrån protokoll, bandbredd och säkerhet. Den kommer också analysera attackvektorer i form av resource packs.
+  %Det visade sig att Minecraft använder TCP, kryptering i form av ASN.1 och DER samt att resource packs... [RESULTAT]
+\end{abstract}
+
+\section{Introduktion}
+
+\IEEEPARstart{M}{inecraft} har idag sålts 300 miljoner gånger. \cite{statista:minecraftcopies} \cite{windowscentral:minecraft2023} Utöver bara intresset av hur man hanterar detta, så är det viktigt att sätta hyffsat starka krav på ett så uppkopplat spel när det kommer till integritet och säkerhet. 
+
+Det är just detta som kommer undersökas i denna rapport. Till att börja med kommer vi kolla på vilka protokoll och processer som ingår i allt från initiell uppkoppling till upprätthållning, synkning och CDN-nätverk, när en spelare kopplar upp till en server. Vi kommer också undersöka om det är möjligt att infektera ett system med virus med hjälp av resource packs, sida \pageref{par:resourcepack}.
+ 
+\hfill \today
+
+\section{Bakgrund}
+\subsubsection{Minecrafts historia}
+Minecraft började sin utveckling i 2009, under tiden då skaparen - Markus "Notch" Persson - jobbade hos spelutvecklaren King \cite{wired:minecraft2014} och är nu världens mest sålda spel. \cite{windowscentral:minecraft2023}
+
+Det var inte lång tid mellan prototyp och lansering, bara 2 år \cite{notch:tumblr:micdrop}. Vid denna punkt kom företaget att heta Mojang. Kort efter lansering tog Jens "Jeb" Bergensten, en LTH (D-sektionen) alumn \cite{linkedin:jeb}, över den kreativa utvecklingen \cite{notch:tumblr:micdrop}. Några år efter det, 2014, köpte Microsoft företaget. \cite{microsoft:minecraft2014}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=175px]{../Resurser/Images/jebatlth.jpg}
+  \caption{Jens Bergensten på LTH, 2005, slutet av XP-kursen (idag EDAF45). \cite{dsek:jensbergensten}}
+  \label{fig:JebLTH}
+  \vspace*{1em}
+  \includegraphics[width=175px]{../Resurser/Images/2013jebandnotch.jpg}
+  \caption{Markus, "Notch" Persson och Jens "Jeb" Bergensten, 2013 \cite{time:minecraft2013}.}
+  \label{fig:Notch}
+\end{figure}
+\subsubsection{Spelbeskrivning}
+Det primära målet med spelet är att överleva natten, varje natt, i ett i praktiskt mån oändligt och procedurellt genererat landskap med djur, fiender och mycket mer. Spelaren har fritt val i hur de väljer att överleva, men oftast gör man detta genom att samla och odla mat samt gräva för resurser för att förbättra ens utrustning.
+
+Utöver detta kan spelaren uppnå en hel mängd av sekundära mål, som att bygga, vinna över svåra fiender, utforska, koppla upp komplicerade "redstone" kretsar och mycket mer. Man brukar till och med säga att Minecraft "inte har några mål", i det men att spelaren inte vägleds linjärt genom spelet utan kan välja vad de vill göra.
+
+Detta är däremot endast en ut av flera lägen - där finns också "creative", "adventure", med mera - men dessa är inte av relevans i våra tester.
+
+%Den "traditionella" och nog egentligen menade rutten, dock, var att döda den såkallade "Enderdraken" - en stor drakvarelse i dimensionen passande namngedd till "The End". Dock, på grund av vad som lite oärligt kan sägas vara "feature creep" (att succesivt tilläga "onödiga" funktioner), så finns där idag i praktiken oändliga sätt att spela, och spelet slutar inte nödvändigtvis efter det.
+
+\paragraph{Minecraft multiplayer}
+Multiplayer kom hyffsat tidigt i spelets utveckling, i version 0.0.15a år 2009, \cite{fanmcwiki:classic2009} och har alltid inneburit att koppla upp mot en självständig server (förutom molntjänsten Realms, som inte kommer diskuteras här).
+
+Standardporten för en server är 25565 och protokollet använt är mestadels TCP, förutom vid autensiering. \cite{wikivg:minecraftprotocol} Detta är många dataingenjörers första utflykt i deras hemmarouter.
+
+\paragraph{Att starta en server}
+Att köra en Minecraft server själv är hyffsat enkelt. Förutsatt att Java är installerat så kör du bara java-filen som finns tillgänglig hos Minecraft.com. Vid serverstarr kommer du begäras godkänna "End User License Agreement" (EULA) innan du faktiskt får köra servern.
+
+Även sp långt är dock servern endast lokal. För att göra den offentlig måste man binda portarna till serverns lokala IP-adress. Därefter kan andra koppla upp till servern genom din offentliga IP-adress. Har en port annat än standard angivits måste msn koppla upp med porten angedd, alltså portadressen, exempelvis xxx.xxx.xxx.xxx:20000.
+
+Andra alternativ är att hyra en server från ett näthotell eller genom Realms. Varken av dem kommer diskuteras vidare i denna rapporten. 
+
+Som då kan skådas är det även enkelt möjligt för någon med dåliga avsikter att starta en server i syfte att sprida virus, logga IP-adresser eller dylikt.
+\subsubsection{Terminologi}
+\paragraph{Värld}
+När vi refererar till en värld i Minecraft menar vi en instans av Minecraft, en sparfil. 
+
+%Seed ---
+%Ett begrepp bekant i många procedurellt eller slumpmässigt genererade spel: ett "seed" refererar till en unik omständighet. Ett specifikt seed kommer alltid generera samma specifika värld, givet att världsgeneratorn inte ändrats.
+
+%Hur en Minecraftvärld genereras är ett djupt ämne som inte fåt plats i ramarna av denna rapport.
+
+Block ---
+En volymenhet i Minecraft, 1 x 1 x 1 längdenheter, se övre delen av figur \ref{fig:minecraftchunk}. Typiskt sett brukar man sätta längdenheten till meter, men detta är egentligen arbiträrt då måtten är virtuella. Spelaren kan endast modifiera världen i etapper av block.
+
+Chunk ---
+En del av världen. 16 x 16 block i xz-planet och oändligt i y-axeln. Se figur \ref{fig:minecraftchunk}. Framförallt gör chunks världen lättare att hantera, men de låter också Minecraft generera olika egenskaper i varje chunks (exempelvis var resurser kommer finnas).
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[height=175px]{../Resurser/Images/Chunk.png}
+  \caption{Ett enstaka chunk i Minecraft. Berggrunden hela vägen upp till himmeln. \cite{fanmcwiki:chunk}}
+  \label{fig:minecraftchunk}
+\end{figure}
+
+I Minecraft är koordinatsystemet riktat med y-axeln uppåt, se figur \ref{fig:minecraftcoords}, därav xz-planet utgör horisontalen. 
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=175px]{../Resurser/Images/coordinates.png}
+  \caption{Koordinatsystemet i Minecraft. \cite{coderdojo:mccoords}}
+  \label{fig:minecraftcoords}
+\end{figure}
+ 
+\paragraph{Server}
+I kommunikationsläran är en server oftast en maskin vars enskilda mål är att kommuniceras med och kommunicera ut från och till andra datorer. \cite{wikipedia:server}
+
+I Minecraft är det däremot mer typiskt att en server betyder en särskild instans. Servrarna är sällan dedikerade och kan vara en av flera på samma servermaskin, samsande om minne och processor. På liknande sätt kan en vanlig hemmadator köra en server i bakgrunden. I rapporten kommer vi därför referera en sådan instans som "Minecraftserver".
+
+\label{par:resourcepack}
+\paragraph{Resource packs}
+I sin enklaste form inkluderar "resource packs" alternativa texturer till spelet, vilket är hur det faktiskt fungerade upp till version 1.6, \cite{fanmcwiki:texturepack} före vilket de kallades "texture packs" och bestod till stor del av flera rutnät av texturer. 
+
+Resource packs innebar splittringen av rutnätet i individuella filer, men även att man nu kunde inkludera ljud och animationer, bland annat. \cite{fanmcwiki:resourcepack}
+
+Dessa, som sin föregångare, installeras genom att ladda ner ett Zip arkiv och flytta den till resource pack mappen.
+
+Det har även, sedan 2012, \cite{dinnerbone:twitter:servertexturepack} \cite{mcwiki:java1.3.1} gått att ställa in ett standard texture pack (numera resource pack, såklart) för sin server.  När en användare loggar in så kommer den bli tillfrågad om den vill ladda ner resource pack:et --- se figur \ref{fig:resourcepackprompt}. 
+
+Ett problem med detta är att en servervärd kan välja vilken filnerladdningstjänst de vill använda för resourcepaketet, vilket inkluderar några kontroversiella val så som Mediafire och MEGA. Detta gör dem i server.properties, se figur \ref{fig:serverproperties}. Det är då upp till Minecraft-klienten eller servern att undersöka filerna. 
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resurser/Images/serverproperties.png}
+  \caption{Serverinställningarna. Inställningen i fråga är markerad med röd, länken är gömd då den innehåller ett test-virus.}
+  \label{fig:serverproperties}
+\end{figure}
+
+
+Enligt några inlägg på olika forum, finns anektodiska exempel av virus funna i resource packs, men vi har inte kunnat bekräfta detta. Mekanismerna bygger dessutom ibland på att användaren kanske måste använda en visserligen vanlig modifikation av spelet, exempelvis Optifine, men trots allt en modifikation av spelet, för att något ska hända. Dessutom, i de fall vi läst igenom, verkar det som alla involverar manuell installation och dessutom ofta skumma sidor. På grund av den allmänt sett yngre spelarbasen är det utöver detta också ofta tekniskt obildade beskrivningar, det vill säga att det inte är säkert att offerna faktiskt förstått varför eller hur de fick ett virus, utan kanske skyller det på resource packs.
+
+Det sagt så är det inte omöjligt att infektera vilken fil som helst med virus, frågan är bara om det går att exekvera den hos destinationen. Detta kan däremot vara svårt, då resource packs är enkla strukturer, de exekverar egentligen inte något. För att kunna ge sig på klienten genom filerna i resourcepack:et måste man då på något sätt lura spelet att exekvera koden inom filerna.
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=175px]{../Resurser/Images/resourcepacktemp.png}
+  \caption{Tillfrågande av användaren.}
+  \label{fig:resourcepackprompt}
+\end{figure}
+
+Som åskådligt i bilden, så är där ingen design som lägger i åtanke att styra användaren mot nej, vilket gör det lätt att råka trycka ja.
+
+Däremot kan användaren välja om tillfrågningen dyker upp överhuvudtaget, se figur \ref{fig:resourcepackenable}.
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=175px]{../Resurser/Images/serversettings.png}
+  \caption{Minecrafts uppkopplingsinställningar. IP:n är anonymiserad.}
+  \label{fig:resourcepackenable}
+\end{figure}
+
+\paragraph{PvP}
+Spelare mot spelare (Player versus Player) är en mekanik som låter spelare skada varandra.
+
+\subsubsection{Minecrafts protokoll}
+Minecraft använder sig av ett anpassat protokoll för att möjliggöra kommunikation mellan klienten och servern. Protokollet är överlag baserat på TCP för att säkerställa tillförlitlig dataöverföring, och är uppbygt i flera faser: Handshake, Login, Configuration och Play. Faserna ger betydelse åt de paket som skickas.
+
+Paketen har olika ID:n och format beroende på deras syfte; de innehåller den specifika informationen som krävs för den aktuella händelsen.
+
+\paragraph{Handshake}
+I Handshake-fasen skickas ett speciellt Handshake-paket för att etablera en anslutning mellan klienten och servern. Handshake-paketet innehåller protokollversionen, serveradressen, och porten som klienten ska ansluta till.
+
+\paragraph{Login}
+Anslutningen övergår till Login-fasen efter en lyckad handskakning. Viktiga paket i denna fas är "Login Start" som inleder inloggningen och "Login Success" för att signalera att inloggningen lyckats.
+
+\paragraph{Configuration}
+Vissa servrar behöver en konfigurationsfas för att ställa in korrekta inställningar beroende på eventuella mods och plugins.
+
+\paragraph{Play}
+Det är i Play-fasen som de flesta spelrelaterade paketen skickas. Paket skickas exempelvis för att hantera spelarens rörelse, chattmeddelanden eller blockinteraktioner.
+
+\cite{wikivg:minecraftprotocol}
+
+\section{Frågeställning}
+\label{rq}
+    \begin{enumerate}
+      \item Hur kopplar klienten upp sig mot servern? Hur ser processen ut? \label{itm:rq1}
+      \item Vad händer under tiden klienten är upkopplas? \label{itm:rq2}
+      \item Innebär resourcepacks en säkerhetrisk? \label{itm:rq3}
+      \item Hur fungerar chatten? Är den säker? \label{itm:rq4}
+      \item Hur ser det ut från serverns perspentiv? \label{itm:rq5}
+      \item Är uppkopplingen likadan lokalt som publik? \label{itm:rq6}
+    \end{enumerate}
+\section{Metodbeskrivning}
+\subsection{Nätverkskonfiguration} 
+Alla tester utfördes med serverdatorn i nätverk 1 och klienten i nätverk 2.
+
+\subsubsection{Nätverk 1} 
+I detta nätverk är serverdatorn uppkopplad med en CAT 5e kabel. Routern i detta nätet, en ASUS RT-AC68U (se figur \ref{fig:rtac68u}), stöder hastigheter upp till 1000 Mb/s \cite{asus:rtac68u} och kör på custom firmware Merlin, version 386.5 (2). Interfacet syns i figur \ref{fig:asuswrt}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=150px]{../Resurser/Images/asusrt68u.jpg}
+  \caption{ASUS RT-AC68U.}
+  \label{fig:rtac68u}
+  \vspace*{1em}
+  \includegraphics[width=150px]{../Resurser/Images/asusmerlin.png}
+  \caption{ASUSwrt-Merlin custom firmware interface}
+  \label{fig:asuswrt}
+\end{figure}
+
+Minecraft-servern kördes med officiella serverfilen för Minecraft 1.20.2 tillgängliggjord av Mojang, på en nyformaterad installation av Arch Linux - med endast det absolut nödvändigaste installerat. Just Arch valdes för att det redan är väldigt minimalt och gör därför det lättare att eliminera både bakgrundstrafik och maximera prestandan av serverdatorn.
+ 
+Då vi initiellt trodde det var nödvändigt att använda Wireshark på systemet i sig och ville använda det grafiska gränssnittet installerades även "Awesome WM", en såkallad Window Manager (ett system för att hantera grafiska gränssnitt) och LightDM, en såkallad Display Manager (som väljer vilken Window Manager/Desktop Enviroment man vill använda). Båda är väldigt minimala, men vi upptäckte senare att vi bara kunnat använda SSH till allt och göra installationen såkallat "headless" (utan grafiskt gränssnitt). 
+
+Eftersom vi ändå hade grafiskt gränssnitt utfördes testerna genom att köra SSH-kommandot med X11, det vill säga med flaggan -X, vilket skickar renderingen av program till den dator som styr. 
+
+Utöver detta installerades även OpenSSH för att göra det möjligt för oss att fjärrstyra serverdatorn. Exakt vilka paket som installerades listas i appendix C och systemets specifikationer listas i appendix A.
+
+WiFi- och Bluetooth-modulerna på nätverkskortet avaktiverades (med 'rfkill') för att endast tillåta kommunikation över loopback- och Ethernet-interfacet.
+
+Minecraftserver-filen kopierades över SSH med kommandot 'scp' och initialiserades med 2 GB minne. Sedan konfigurerades Minecraft-servern till att endast släppa in tillåtna medlemmar (genom såkallad whitelist), att inte tillåta varken "spawning" (instansiering) av varelser, väder, dag/natt cykel eller eldspridning. 
+
+I routern portforwardades port 25565 till den lokala IP-adressen 192.168.1.196, serverdatorns lokala IPv4-adress. 
+
+En grov nätverkstopologi kan ses i appendix B.
+
+\subsubsection{Nätverk 2}
+Klientdatorn körde Minecraft 1.20.2 på Windows 11. Exakta specifikationer listas åter igen i appendix A.
+
+\subsection{Mätningsmetodik}
+Inga modifikationer av Minecraft-klienten gjordes. 
+
+Dessutom användes endast nätverk 1 och 2 för mätningar, inga andra nät.
+
+På serverdatorn filtrerade vi efter serverns egna IP-adress, det vill säga alla inkommande och utskickade paket som har med servern att göra, samt tillät inte SSH-protokollet samt motsvarande porten 22 då servern fjärrstyrdes. 
+
+På klientdatorn filtrerades datan efter port 25565, som Minecraft använder, men hela datainsamlingen sparades. I databehandlingen ändrades detta filter till ett mer lämpligt filter, som inte var lika aggresivt.
+
+Inför varje mätning rensades Wireshark, och en ny inspelning påbörjades ungefär samtidigt på klienten och servern (i detta tester där detta var relevant). Testerna utfördes, och sedan avbröts inspelningen och sparades. Serverdatorn var i vilket fall som helst endast uppkopplat över SSH, alltså inga andra program än Minecraftservern, men klientdatorn - som körde Windows - hade några bakgrundsprocesser igång även om så många program som möjligt var stängda. Mer om detta diskuteras i validitetsdiskussionen, underrubrik \ref{discuss:validity}.
+\subsubsection{Databehandling}
+Inspelningarna filtrerades och när de var utförda sparades den filtrerade versionen i CSV-format och hela inspelningen i pcapng-formatet för eventuell vidareanalys.
+
+För alla figurer i denna sektion har dock Wiresharks "IO-graph" funktion använts, för att förenkla databehandlingen. Tanken var ursprungligen att använda databehandlingsspråket R, men det visa sig inte vara kraftfullt nog utan mycket arbete.
+
+I Wireshark användes display-filtret som filter för IO grafen, bytes per tidsenhet valdes som y-axel och x-axel tid. Endast denna funktion visas i grafen.
+\section{Resultat}
+Ta nära hänsyn till tidsskalan, som ständigt skiftar genom testerna på grund av hur Wireshark behandlar graferna. Däremot har vi så långt som möjligt försökt hålla alla y-axlar till bytes per 100 ms om inget annat anges. Likväl gäller det i alla tabeller att tiden är angedd i sekunder och datamängden i bytes, om inget annat anges. 
+\subsection{Start av server}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/server_start.png}
+  \caption{Antal bytes per 100 ms. Spiken är då servern startades.}
+  \label{fig:server:start}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:start}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = 192.168.1.196 (lokal)} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      13.107.246.53 & 13 & 14 & 10 000 & 1000 & 10,37 \\
+      \hline   
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+Det visar sig att servern kommunicerar med sessionsservern för att berätta att den är igång över TLS och TCP.
+
+\label{test:ping}
+\subsection{Uppdatering av serverlista (ping)}
+\subsubsection{Serverns perspektiv}
+Som går att se i figur \ref{fig:server:localping} så är överföringen väldigt liten, stort sett obetydlig.
+
+Dialogen som sker är väldigt enkel, och sker enbart över TCP. Servern och klienten synkroniseras genom att klienten skickar ett TCP-paket med SYN=1, servern skickar tillbaka ACK-signal och klienten skickar en ACK-signal angående detta. 
+
+Därefter skickar klienten totalt 4 paket, och servern likväl ett motsvarande antal ACK-paket. Förbindelsen avslutas med en FIN-signal från både klient och server samt motsvarande ACK-signaler.
+
+Dialogen ser exakt likadan ut oavsett lokal eller extern förbindelse, i allt förutom klientens IP-adress.
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/ping_server_local.png}
+  \caption{Antal bytes per 50 ms som sänds vid lokal ping}
+  \label{fig:server:localping}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:localping}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = 192.168.1.196 (lokal)} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (ms) \\
+      \hline
+      192.168.1.25 & 7 & 7 & 503 & 642 & 33,68 \\
+      \hline   
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:externping}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = 192.168.1.196 (Lokal server)} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (ms) \\
+      \hline
+      Klient (extern) & 8 & 7 & 570 & 642 & 8,27 \\
+      \hline   
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+
+\subsubsection{Klientens perspektiv}
+Observera att detta test gjordes helt avskilt från server-side testet, då vi råkade radera ursprungliga inspelningen. Som syns, om du jämför tabellerna, dock så är resultaten sammanhängande.
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/ping_client.png}
+  \caption{Antal bytes per 50 ms som sänds vid ping}
+  \label{fig:client:ping}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:ping}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Lokal klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (ms) \\
+      \hline
+      Server & 7 & 7 & 642 & 504 & 10,20 \\
+      \hline   
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+\subsection{Uppkoppling till server}
+När man först ansluter till servern sker ett protokoll mellan spelaren och servern. spelaren skickar en handshake till servern och påbörjar login. Därefter skickar servern en "encryption request" till spelaren, spelaren autentiserar den med mojang och skickar en "encryption response" som servern checkar mot mojang och om allt stämmer är inloggningen klar. \cite{wikivg:protocolencryption}
+\subsubsection{Serverns perspektiv}
+Som innan, kan vi observera, i figur \ref{fig:server:localconn} och \ref{fig:server:externconn:whitelist}, att den enda skillnaden är destinationsadressen. 
+
+När spelaren kopplar upp till servern utförs först ett ping, i samma omfattning som i underrubrik \ref{test:ping}. Därefter hämtas adressen relaterad till "sessionserver.mojang.com" från DNS-servern, det vill säga Minecrafts autensieringsserver. 
+
+Då påbörjas en dialog över TLS, där användarkontot autensieras och dess UUID hämtas från servrarna. Det är inte förrän efter detta, som vi skådade i testerna där spelaren är bannlyst, som servern själv kollar om spelaren får komma in överhuvudtaget. 
+
+\paragraph{Lokal förbindelse}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/join_server_local.png}
+  \caption{Bytes per 100 ms. Detta test kördes endast med whitelist.}
+  \label{fig:server:localconn}
+\end{figure}
+Den första spiken som syns i grafen är ping, varefter den andra är TLS-dialogen.
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:localconn}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.75cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = 192.168.1.196 (Server, lokal)} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (ms) \\
+      \hline
+      Lokal klient & 6 & 5 & 710 & 511 & 303,40 \\
+      \hline
+      192.168.1.1 & 2 & 2 & 676 & 168 & 26,60 \\
+      \hline   
+      13.107.213.53 & 11 & 11 & 8000 & 2000 & 238,30 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Sista IP:n i tabellen är IP:n till sessionservern.}
+\end{table}
+
+\paragraph{Extern förbindelse}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/join_server_public.png}
+  \caption{Bytes per 100 ms. Whitelistad uppkoppling}
+  \label{fig:server:externconn:whitelist}
+\end{figure}
+Åter igen, som går att skåda från bilderna, så är karaktären av uppkopplingen identisk med den då uppkopplingen är lokal. Det enda som skiljer sig i bilderna är tidsskalan, som blev hela sekunder efter exportering i Wireshark.
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:externconn:whitelist}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Serverns offentliga portadress} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Klient & 6 & 5 & 687 & 455 & 0,627 \\
+      \hline
+      192.168.1.1 & 2 & 2 & 606 & 168 & 0,049 \\
+      \hline   
+      13.107.246.53 & 11 & 10 & 8000 & 2000 & 0,217 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Sista IP:n i tabellen är IP:n till sessionservern.}
+\end{table}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/join_server_external_banned.png}
+  \caption{Bytes per 100 ms. Bannlyst uppkoppling. Första spiken är autensiering, andra är ett försök till uppkoppling, som resulterar i nekande.}
+  \label{fig:server:externconn:banned}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:externconn:banned}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Serverns offentliga portadress} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Klient & 8 & 8 & 807 & 706 & 0,892\\
+      \hline   
+      192.168.1.1 & 2 & 2 & 606 & 168 & 0,064 \\
+      \hline
+      13.107.246.53 & 10 & 10 & 8000 & 2000 & 0,230 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Sista IP:n i tabellen är IP:n till sessionservern.}
+\end{table}
+\subsubsection{Klientens perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/join_client_public.png}
+  \caption{Bytes per 100 ms. Uppkoppling då spelaren är tillåten.}
+  \label{fig:client:externconn:whitelist}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:externconn:whitelist}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Server & 4 & 5 & 413 & 358 & 0,112 \\
+      \hline   
+      13.107.246.53 & 12 & 9 & 7000 & 2000 & 0,282 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Sista IP:n i tabellen är IP:n till sessionservern.}
+\end{table}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/join_client_public_banned.png}
+  \caption{Bytes per 100 ms. Uppkoppling då spelaren är bannlyst}
+  \label{fig:client:externconn:banned}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:externconn:banned}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Server & 8 & 8 & 736 & 783 & 0,931 \\
+      \hline   
+      13.107.246.53 & 12 & 9 & 7000 & 2000 & 0,297 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Sista IP:n i tabellen är IP:n till sessionservern.}
+\end{table}
+I tabellen ovan syns det tydligt att servern kommunicerar lite med spelaren, och att detta också medför längre konversationstid.
+\subsection{Upprätthållning av uppkoppling}
+%Från spelarsidan skickar den alltid ett datapaket varje sekund, men skickar oftare då spelaren t.ex. använder chatten eller interagerar med världen/spelarna. Servern skickar en mängd paket i intervaller av 0.05s, alltså 20 gånger per sekund. Hur mycket som skickas vid varje tillfälle beror på hur mycket servern har att förmedla men det ligger runt 10-50 paket.[källa vet inte ens om det stämmer helt med de siffrorna]. 
+\subsubsection{Serverns perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/connection_server_external.png}
+  \caption{Bytes per 100 ms. Transmissionen som börjar ske direkt efter autensiering är slutförd. Mot slutet är klienten bortkopplad, men på grund av "keep-alive" slutar inte transmissionen omedelbart. Allra sista spiken är kommunikation med sessionsservern om att klienten kopplats bort.}
+  \label{fig:server:conn}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:conn}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Serverns offentliga portadress} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Klient & 399 & 465 & 25 000 & 866 000 & 0,892 \\
+      \hline
+      13.107.246.53 & 10 & 10 & 8000 & 2000 & 0,230 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Sista IP:n i tabellen är IP:n till sessionservern.}
+\end{table}
+\subsubsection{Klientens perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/connection_client_public.png}
+  \caption{Bytes per 100 ms. Transmissionen som börjar ske direkt efter autensiering är slutförd. Mot slutet är klienten bortkopplad, men på grund av "keep-alive" slutar inte transmissionen omedelbart även här. Allra sista (lilla) spiken är kommunikation med sessionsservern om att klienten kopplats bort, precis som hos servern.}
+  \label{fig:client:conn}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:conn}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Server & 761 & 401 & 882 000 & 25 000 & 7,825 \\
+      \hline
+      13.107.246.53 & 6 & 6 & 730 & 2000 & 8,014 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Sista IP:n i tabellen är IP:n till sessionservern.}
+\end{table}
+\subsection{Resource packs}
+Det visar sig att klienten kopplas upp direkt med den server filen ligger på, utan mellanlager, efter servern berättar för klienten var resource pack finns. Se figur \ref{fig:resourcepackdn}.
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=200px]{../Resurser/Images/resourcepackdn.png}
+  \caption{Minecraft försöker ladda ner filen.}
+  \label{fig:resourcepackdn}
+\end{figure}
+
+Filerna lagras dessutom permanent på spelarens dator under .minecraft mappen (exakt var beror på operativsystemet och installationsmetod). Se figur \ref{fig:resourcepackfolder}.
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=200px]{../Resultat/Behandlad/rp.png}
+  \caption{Mappar före och efter inloggning på server.}
+  \label{fig:resourcepackfolder}
+\end{figure}
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/rp_client.png}
+  \caption{Bytes per 100 ms. Spiken är nerladdningen av resource pack, men precis innan det sker en DNS request till nerladdningsservern.}
+  \label{fig:client:rp}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:rp}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      188.114.96.1 & 1808 & 913 & 9 MB & 61 kB & 0,548 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+
+För att testa virus inkluderade vi EICAR:s test-virus fil (en fil som egentligen inte är ett virus, men bör detekteras som ett). \cite{eicar} Denna fil var svår att bekräfta som virus, dock, eftersom VirusTotal, en virus-testarhemsida, inte registrerade den som virus. Däremot fick vi senare ett mejl från Google som varnade om filen, se figur \ref{fig:googlewarn}.
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resurser/Images/googlemail.png}
+  \label{fig:googlewarn}
+\end{figure}
+
+Huruvida filen verkligen detekteras som virus eller inte ville inte Minecraft ladda in zip-filen oavsett modifiering - även om det var en helt tom .exe fil. Testerna utfördes med Google Drive och Mediafire, och i vart fall fungerade bara om vi använde den omodifierade filen. Det kvittar också var filen ligger, eller om den till och med döps om till en existerande fil (troligtvis eftersom fil-headern inte stämmer).
+
+Minecraft frågar användaren som förväntat, sedan försöker den ladda ner den, blir färdig och berättar därefter att zip-filen inte kunde laddas in, se figur \ref{fig:resourcepackfail}. Varken filen får leva på disken temporärt kunde inte bekräftas, men den dyker inte upp i .minecraft-mappen. 
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=200px]{../Resurser/Images/resourcepackfail.png}
+  \caption{Minecraft notifierar användaren att filen misslyckades.}
+  \label{fig:resourcepackfail}
+\end{figure}
+
+Som syns i tabell \ref{table:client:rp_virus} så skickas hela resource paketet, som är lite över 8 MB stort. Detta innebär att alla paket tas emot innan filen nekas.
+
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:rp_virus}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      205.196.123.214 & 4114 & 1202 & 9 MB  & 67 kB & 7,061 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+
+Vidare visar det sig också att man kan få klienten att ta emot vad som helst, det kommer bara slängas. Här skickas enbart test-virusfilen, som är 68 byte. Se tabell \ref{table:client:virus}. Observera att majoriteten av datan är en TLS handhake-process, själva filen skickades med bara ett paket. 
+
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:virus}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      205.196.123.202 & 10 & 11 & 5000 & 2000 & 0,657 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+
+Efter manuell inmatning av zip-filen i Minecrafts resource pack mapp visar det sig också att den inte laddas in överhuvudtaget, vilket tyder på att modifieringen bryter något mönster som krävs för att det ska kunna läsas av.
+
+Det visar sig i slutändan att utav allt vi testat så är modifiering av .txt-filen det enda som fungerar.
+
+\subsection{Inladdning av chunks}
+I detta test hade vi chunk-gränserna synliga och vandrade helt enkelt in i ett annat chunk. Med serverns chunk-inladdningsram av 10 chunks i varje riktning så innebär detta inladdning av 21 chunks.
+\subsubsection{Serverns perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/movement_server.png}
+  \caption{Bytes per 100 ms. Den väldigt betonade spiken är när spelaren rörde sig till nästa chunk.}
+  \label{fig:server:chunk}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:chunk}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.75cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Serverns offentliga portadress} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Klient & 387 & 552 & 26 000 & 247 000 & 20,893 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+\subsubsection{Klientens perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/movement_client.png}
+  \caption{Bytes per 100 ms. Den väldigt betonade spiken är när spelaren rörde sig till nästa chunk.}
+  \label{fig:client:chunk}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:chunk}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.75cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Server & 712 & 473 & 276 000 & 29 000 & 26,291 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+\subsection{Modifering av världen}
+\subsubsection{Serverns perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/mining_server.png}
+  \caption{Bytes per 100 ms. Den relativt högre perioden är då modifiering skedde.}
+  \label{fig:server:modify}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:modify}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.75cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Serverns offentliga portadress} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Klient & 973 & 913 & 64 000 & 131 000 & 30,808 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+
+\subsubsection{Klientens perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/mining_client.png}
+  \caption{Bytes per 100 ms. Den relativt högre perioden är då modifiering skedde.}
+  \label{fig:client:modify}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:modify}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (ms) \\
+      \hline
+      Server & 769 & 858 & 116 000 & 55 000 & 23198,90 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Total mängd data i förbindelsen till och från A och B.}
+\end{table}
+\subsection{PvP}
+\subsubsection{Serverns perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/pvp_server.png}
+  \caption{Bytes per 100 ms. Den marginalt högre perioden i mitten är intervallet då PvP skedde.}
+  \label{fig:server:pvp}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:pvp}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.75cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Serverns offentliga portadress} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Klient & 345 & 423 & 25 000 & 111 000 & 14,577 \\
+      \hline
+      192.168.1.1 & 415 & 392 & 33 000 & 114 000 & 14,597 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Gateway är troligtvis med då den andre spelaren var den lokala klienten, uppkopplad genom den offentliga serveradressen. Beteendet liknar det vi såg i ping-exemplena.}
+\end{table}
+
+\subsubsection{Klientens perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/pvp_client.png}
+  \caption{Bytes per 100 ms. Den marginalt högre perioden i mitten är intervallet då PvP skedde, men det är svårare att tyda här.}
+  \label{fig:client:pvp}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:pvp}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.75cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Server & 388 & 320 & 100 000 & 22 000 & 12,900 \\ 
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling. Gateway är troligtvis med då den andre spelaren var den lokala klienten, uppkopplad genom den offentliga serveradressen. Beteendet liknar det vi såg i ping-exemplena.}
+\end{table}
+\subsection{Chatt}
+när spelaren skickar ett meddelande går det direkt till servern i ett paket och texten är krypterad.
+\label{test:chat}
+\subsubsection{Serverns perspektiv}
+Hos servern är chatten synlig i klartext, i konsolloggen --- se tabell \ref{table:server:mcchatlog} för en återkonstruering.
+\rowcolors{2}{green!20!gray!10}{green!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:mcchatlog}
+    \begin{tabular}{ | m{1cm} | m{2cm}| m{3.5cm}| } 
+      \hline
+      Tid & Spelare & Meddelande \\
+      \hline
+      [19:14:21] & <Coolakillen321> & a \\
+      \hline 
+      [19:14:24] & <Coolakillen321> & aaaaaaaaaaaaaaaaaaaaaaaaaaa \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Meddelanden hämtade från serverloggen.}
+\end{table}
+
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/chat_server.png}
+  \caption{Bytes per 100 ms. De två plötsliga spikarna i mitten är de två separata chattmeddelanden, här som förväntat från tabell \ref{table:server:mcchatlog} 3 sekunder ifrån varandra.}
+  \label{fig:server:mcchat}
+\end{figure}
+Kommentar till grafen: Där var väldigt många misslyckade transmissioner i detta flöde, men det har inte stor betydelse för det som undersöktes utöver att grafen och tabellen har mer "brus" då fler paket behövde sändas på grund av återsändning.
+
+Det verkar för övrigt som att ett längre meddelande resulterar i ett större paket. 
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:server:mcchat}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.75cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Serverns offentliga portadress} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Klient & 2 & 540 & 711 & 68 000 & 41,551 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+\subsubsection{Klientens perspektiv}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/chat_client.png}
+  \caption{Bytes per 100 ms. De två plötsliga spikarna i mitten är de två separata chattmeddelanden, vilket syns tydligare här, här också som förväntat från tabell \ref{table:server:mcchatlog} 3 sekunder ifrån varandra.}
+  \label{fig:client:mcchat}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:mcchat}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.75cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      Server & 250 & 183 & 28 000 & 11 000  & 12,504 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+Det verkar till synes inte som att chatten åker någon annanstans än servern, iallafall inte i ett begränsat tidsintervall.
+
+\subsection{Skins}
+Det visade sig i testerna att servern aldrig rör skins själv, den kommunicerar bara till klienten vilken UUID spelarna på servern har (inklusive en själv), och klienten hämtar skinsen själv genom Minecrafts skin CDN. Skins sparas permanent på spelarens dator under .minecraft/assets mappen, se figur \ref{fig:skinfolder}.
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=150px]{../Resultat/Behandlad/skins.png}
+  \caption{Mappar före och efter inloggning på server.}
+  \label{fig:skinfolder}
+\end{figure}
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resultat/Behandlad/IOgraphs/skin_client.png}
+  \caption{Bytes per 100 ms. Spiken är nerladdningen av skins, men precis innan det sker en DNS request till texturservern.}
+  \label{fig:client:skin}
+\end{figure}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:client:skin}
+    \begin{tabular}{ | m{1.5cm} |  m{1cm} | m{1cm}| m{1cm}|m{1cm}|m{0.5cm}| } 
+      \hline
+      \multicolumn{6}{|c|}{Adress B = Klient} \\
+      \hline
+      Adress A & Paket A~->~B & Paket B~->~A & Bytes A~->~B & Bytes B~->~A & Tid (s) \\
+      \hline
+      13.107.246.53 & 6 & 8 & 6000 & 2000 & 0,963 \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  \caption{Beskrivning av dataflöden per uppkoppling.}
+\end{table}
+
+\section{Diskussion}
+\label{discuss:validity}
+\subsection{Validitetsdiskussion}
+För en del var testerna inte väldigt breda. Vi testade som mest 2 klienter (PvP testet), och för övrigt endast 1 klient. Beteenden kanske ändras sig med fler spelare. Dock så bör klientens perspektiv vara likadant oavsett, medan servern kommer se en linjärt ökande mängd trafik.
+
+På klientdatorn var där mycket bakgrundsbrus, på grund av operativssystemet som testerna utfördes på. Således behövdes mer aggressiva filtreringstaktiker tas, vilket kan ha resulterat i förlust av väsentlig data - exempelvis DNS-förfrågingar och CDN-nerladdningar. I relevanta fall så har vi fått manuellt hitta de paket vi vill undersöka för att anpassa filtret till det, vilket inte är optimalt.
+
+Filtret här var, i ord: Antingen server ELLER autensieringsserver ELLER port 25565.
+
+På serverdatorn var det däremot endast SSH som behövde filtreras bort, men datan i sig efter filtrering var helt ren och inga offrande behövde tas för att få endast Minecraft-data.
+
+Filtret här var, i ord: Server OCH inga SSH-paket.
+
+Vidare är det möjligt, i fallet av chatt-testerna, se underrubrik \ref{test:chat}, att det tar tid innan chatten sänds till Mojang för analys. Det ska ju tydligen vara sådant att de skannar chatter numera, men vi kunde inte se det i våra resultat.
+
+Det kan också vara så att metoden för att infektera resource pack inte var lämplig.
+\section{Slutsats}
+\subsection{Frågeställning}
+\ref{itm:rq1}. Hur kopplar klienten upp sig mot servern? Hur ser processen ut?
+
+Klienten pingar servern. Därefter utförs en TLS-autensiering...
+
+\ref{itm:rq2}. Vad händer under tiden klienten är upkopplas?
+
+Servern och klienten uppdaterar varandra konstant. Större paket då mer saker händer...
+
+\ref{itm:rq3}. Innebär resourcepacks en säkerhetrisk? 
+
+Det visar sig att det inte är så enkelt att ladda ner ett infekterat resource pack. I den utsträckning vi testat så kan vi inte säga att det är omöjligt, och som nämnt i bakgrunden så ska det kanske vara möjligt. Vidare forskning krävs i detta ämnet, men vi lägger ner frågan då det inte är huvudfokusen av rapporten. 
+
+\ref{itm:rq4}. Hur fungerar chatten? Är den säker? 
+
+Chatten förs över med paket...
+
+\ref{itm:rq5}. Hur ser det ut från serverns perspentiv?
+
+Oftast ser det exakt likadant ut, bara med mer data. Däremot sänds skins, resource packs och liknande endast hos klienten.
+
+\ref{itm:rq6}. Är uppkopplingen likadan lokalt som publik? 
+Det verkar som det, ja. I de tester som utfördes både lokalt och publikt är den enda skillnaden att IP-adresserna är olika.
+
+\subsection{Vidare forskning}
+Man hade exempelvis kunnat undersöka hur man kan öka prestandan av Minecraftservrar eller hur man hade kunnat göra kommunikationen mer säker. Det hade också varit intressant att undersöka en implementation av servern med protokollet UDP eller QUIC.
+
+Då det inte visade sig vara triviellt att infektera resource packs, så vore det också intressant att spetsa just detta ämnet och se om det överhuvudtaget är möjligt på det sättet föreslaget i rapporten. 
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \capthttps://download1323.mediafire.com/7lvk61nv47wgibazj2sV3q664CA93DE0FX96XXk0PmBgns5ASBCJBlIxbELQI2mGcEBE88mxFBXvdkS9ZUdim8OXGcuBU5xapwuwydO-pF8JwK5xGfaVHJIqGLt8zvThmVvxB8g38oKYehocspBEmaa7QbdC1VQPUHrp2oELu0DmeA/yh6ea0ke223jijf/testhiddenpng.zipver, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that the IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% the IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+\newpage
+\appendices
+\label{appendix:specs}
+\section{Specifikationer}
+\subsection{Specifikationer för serverdatorn}
+En del av denna informationen hämtades rakt från systemet (med 'hwinfo', 'lsblk', 'df -h', 'uname' och 'lspci'), andra detaljer från komponenternas hemsidor.
+
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:serverspecs}
+    \begin{tabular}{ | m{3cm} | m{4cm}| } 
+      \hline
+      \multicolumn{2}{|c|}{Specifikation: serverdator} \\
+      \hline
+      Komponent & Specifikation \\
+      \hline
+      Operativsystem & Arch Linux, version 6.6.3-arch1-1\\
+      \hline
+      OEM modell & HP ProBook 640 G1 \cite{hp:probook640}\\
+      \hline
+      Processor & Intel i5 4210M (rev 06) @ 2.6 GHz \cite{intel:4210m}\\
+      \hline
+      Minne & 8 GB DDR3 1600 MHz SDRAM (Ej original)\\
+      \hline
+      Grafikkort & Intel HD Graphics 4600 (Integrerad) \cite{intel:4210m}\\
+      \hline
+      Nätverkskort (Ethernet) & Intel I217-V (rev 04)\\ 
+      \hline
+      & - 1000Base-T, IEEE 1588 (PTP) \cite{intel:i217-v}\\
+      \hline
+      Lagring & 128 GB Samsung SSD MZ7PD128HCFV-000H1 (840 Pro MZ-7PD128)\cite{samsung:840pro}\\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\subsection{Specifikationer för klientdator}
+\rowcolors{2}{blue!20!gray!10}{blue!20!gray!20}
+\begin{table} [H]
+  \begin{center}
+    \label{table:clientspecs}
+    \begin{tabular}{ | m{3cm} | m{4cm}| } 
+      \hline
+      \multicolumn{2}{|c|}{Specifikation: klientdator} \\
+      \hline
+      Komponent & Specifikation \\
+      \hline
+      Operativsystem &  Windows 11 Home, version 22H2 22621.2715 \\
+      \hline
+      OEM modell &  Samsung Galaxy Book2 \\
+      \hline
+      Processor &  Intel i7-1260P (gen 12) @ 2.10 GHz \\
+      \hline
+      Minne & 16GB LPDDR5 RAM 5200MHz \\
+      \hline
+      Grafikkort &  Intel Iris Xe graphics (Integrerad) \\
+      \hline
+      Nätverkskort (Wi-Fi) & Intel 6E AX211 160MHz \\
+      \hline
+      Lagring & SAMSUNG MZVLQ512HBLU-00B \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+\label{appendix:net}
+\section{Nätverk}
+\subsection{Nätverk 1}
+Detta är ett särskilt utspritt nätverk, där är många IoT (Internet of Things) enheter, så som Google Home, Chromecast, med mera. Av störst relevans är dock serverdatorn och dens uppkoppling till det bredare internetet, och därför kommer alla andra enheter klumpas in i kategorier.
+
+Routern är uppkopplad till en fiberhubb, en [MODEL] (se appendix A för specifikationer), som i sin tur är uppkopplad genom Telenor och deras stamnät. Se figur \ref{fig:net1}.
+
+Se figur \ref{fig:nettonet} för en visualisering av hur nätverk 1 och 2 interagerar över detta stamnät.
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resurser/Images/net1.png}
+  \caption{Bild av nät 1.}
+  \label{fig:net1}
+\end{figure}
+
+
+\subsection{Nätverk 2}
+Nätverket som klienten är uppkopplad på är ett enkelt hemnätverk, uppkopplingstyp 802.11ac mellan routern och laptopen. Routern är uppkopplad mot Tele2s nät.
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resurser/Images/net2.png}
+  \caption{Bild av nät 2.}
+  \label{fig:net2}
+\end{figure}
+\subsection{Uppkoppling mellan nätverk 1 och 2}
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=\linewidth]{../Resurser/Images/bothnet.png}
+  \caption{Bild av uppkoppling mellan nät.}
+  \label{fig:nettonet}
+\end{figure}
+
+\label{appendix:software}
+\section{Mjukvara}
+\subsection{Serverdator}
+Nedan är output från pacman -Q. Får samma output för yay -Q. Paketen jag installerat själv är markerade med +, resterande är dependencies som installerats automatiskt till följd.
+\begin{multicols}{2}
+  \begin{tiny}
+    \begin{lstlisting}[escapeinside=``,breaklines=true]
+    abseil-cpp 20230802.1-1
+    acl 2.3.1-3
+    adobe-source-code-pro-fonts 2.042u+1.062i+1.026vf-1
+    adwaita-cursors 45.0-1
+    adwaita-icon-theme 45.0-1
+    + alacritty 0.12.3-1
+    alsa-card-profiles 1:1.0.0-1
+    alsa-lib 1.2.10-2
+    alsa-topology-conf 1.2.5.1-3
+    alsa-ucm-conf 1.2.10-2
+    aom 3.7.1-1
+    + archlinux-keyring 20231130-1
+    argon2 20190702-5
+    at-spi2-core 2.50.0-1
+    attr 2.5.1-3
+    audit 3.1.2-1
+    autoconf 2.71-4
+    automake 1.16.5-2
+    avahi 1:0.8+r189+g35bb1ba-1
+    + awesome 4.3-3
+    + base 3-2
+    + base-devel 1-1
+    bash 5.2.021-1
+    bcg729 1.1.1-1
+    binutils 2.41-3
+    bison 3.8.2-6
+    bluez-libs 5.70-1
+    brotli 1.1.0-1
+    bzip2 1.0.8-5
+    c-ares 1.23.0-1
+    ca-certificates 20220905-1
+    ca-certificates-mozilla 3.95-1
+    ca-certificates-utils 20220905-1
+    cairo 1.18.0-1
+    cantarell-fonts 1:0.303.1-1
+    coreutils 9.4-2
+    cryptsetup 2.6.1-3
+    + curl 8.4.0-2
+    dav1d 1.3.0-1
+    db 6.2.32-1
+    db5.3 5.3.28-4
+    dbus 1.14.10-1
+    dconf 0.40.0-2
+    debugedit 5.0-5
+    default-cursors 2-1
+    desktop-file-utils 0.27-1
+    device-mapper 2.03.22-2
+    dex 0.9.0-1
+    dialog 1:1.3_20231002-1
+    diffutils 3.10-1
+    dnssec-anchors 20190629-3
+    double-conversion 3.3.0-1
+    duktape 2.7.0-6
+    e2fsprogs 1.47.0-1
+    expat 2.5.0-1
+    fakeroot 1.32.2-1
+    ffmpeg 2:6.1-1
+    file 5.45-1
+    filesystem 2023.09.18-1
+    findutils 4.9.0-3
+    flac 1.4.3-1
+    flex 2.6.4-5
+    fontconfig 2:2.14.2-1
+    freetype2 2.13.2-1
+    fribidi 1.0.13-2
+    gawk 5.3.0-1
+    gc 8.2.4-1
+    gcc 13.2.1-3
+    gcc-libs 13.2.1-3
+    gdbm 1.23-2
+    gdk-pixbuf2 2.42.10-2
+    gettext 0.22.4-1
+    giflib 5.2.1-2
+    git 2.43.0-1
+    glib-networking 1:2.78.0-1
+    glib2 2.78.1-1
+    glibc 2.38-7
+    glu 9.0.3-1
+    gmp 6.3.0-1
+    gnu-free-fonts 20120503-8
+    gnupg 2.4.3-2
+    gnutls 3.8.2-1
+    go 2:1.21.4-1
+    gobject-introspection-runtime 1.78.1-1
+    gperftools 2.13-2
+    gpgme 1.23.2-1
+    gpm 1.20.7.r38.ge82d1a6-5
+    graphite 1:1.3.14-3
+    grep 3.11-1
+    groff 1.23.0-5
+    + grub 2:2.12rc1-5
+    gsettings-desktop-schemas 45.0-1
+    gsm 1.0.22-1
+    gtk-update-icon-cache 1:4.12.4-1
+    gtk3 1:3.24.38-1
+    guile 3.0.9-1
+    gzip 1.13-2
+    harfbuzz 8.3.0-1
+    hicolor-icon-theme 0.17-3
+    hidapi 0.14.0-2
+    highway 1.0.7-1
+    hwdata 0.376-1
+    + hwinfo 23.2-1
+    iana-etc 20231117-1
+    icu 73.2-2
+    imath 3.1.9-2
+    imlib2 1.12.1-1
+    iproute2 6.6.0-2
+    iptables 1:1.8.10-1
+    iputils 20221126-2
+    iso-codes 4.15.0-1
+    jansson 2.14-2
+    java-runtime-common 3-5
+    jbigkit 2.1-7
+    + jre-openjdk 21.u35-8
+    json-c 0.17-1
+    json-glib 1.8.0-1
+    kbd 2.6.3-1
+    keyutils 1.6.3-2
+    kmod 31-1
+    krb5 1.20.1-2
+    l-smash 2.14.5-3
+    lame 3.100-4
+    lcms2 2.15-1
+    ldns 1.8.3-2
+    less 1:643-1
+    libarchive 3.7.2-1
+    libass 0.17.1-2
+    libassuan 2.5.6-1
+    libasyncns 1:0.8+r3+g68cd5af-2
+    libavc1394 0.5.4-6
+    libb2 0.98.1-2
+    libbluray 1.3.4-1
+    libbpf 1.2.2-1
+    libbs2b 3.1.0-8
+    libcamera 0.1.0-2
+    libcamera-ipa 0.1.0-2
+    libcanberra 1:0.30+r2+gc0620e4-3
+    libcap 2.69-2
+    libcap-ng 0.8.3-2
+    libcloudproviders 0.3.5-1
+    libcolord 1.4.6-1
+    libcups 1:2.4.7-2
+    libdaemon 0.14-5
+    libdatrie 0.2.13-4
+    libdbusmenu-glib 16.04.0.r498-2
+    libdbusmenu-gtk3 16.04.0.r498-2
+    libdeflate 1.19-1
+    libdrm 2.4.118-1
+    libedit 20230828_3.1-1
+    libelf 0.190-1
+    libepoxy 1.5.10-2
+    libevdev 1.13.1-1
+    libevent 2.1.12-4
+    libfdk-aac 2.0.2-1
+    libffi 3.4.4-1
+    libfontenc 1.1.7-1
+    libfreeaptx 0.1.1-1
+    libgcrypt 1.10.3-1
+    libgirepository 1.78.1-1
+    libglvnd 1.7.0-1
+    libgnomekbd 1:3.28.1-1
+    libgpg-error 1.47-1
+    libgudev 238-1
+    libice 1.1.1-2
+    libidn2 2.3.4-3
+    libiec61883 1.2.0-7
+    libimobiledevice 1.3.0-9
+    libinput 1.24.0-1
+    libisl 0.26-1
+    libjpeg-turbo 3.0.1-1
+    libjxl 0.8.2-2
+    libksba 1.6.5-1
+    liblc3 1.0.4-1
+    libldac 2.0.2.3-1
+    libldap 2.6.6-2
+    libmaxminddb 1.8.0-1
+    libmm-glib 1.22.0-1
+    libmnl 1.0.5-1
+    libmodplug 0.8.9.0-5
+    libmpc 1.3.1-1
+    libmysofa 1.3.2-1
+    libndp 1.8-1
+    libnet 2:1.3-1
+    libnetfilter_conntrack 1.0.9-1
+    libnewt 0.52.23-2
+    libnfnetlink 1.0.2-1
+    libnftnl 1.2.6-1
+    libnghttp2 1.58.0-1
+    libnl 3.8.0-1
+    libnm 1.44.2-3
+    libnsl 2.0.1-1
+    libogg 1.3.5-1
+    libomxil-bellagio 0.9.3-4
+    libopenmpt 0.7.3-1
+    libp11-kit 0.25.3-1
+    libpcap 1.10.4-1
+    libpciaccess 0.17-1
+    libpgm 5.3.128-3
+    libpipewire 1:1.0.0-1
+    libplist 2.3.0-2
+    libpng 1.6.40-2
+    libproxy 0.5.3-2
+    libpsl 0.21.2-1
+    libpulse 16.1-6
+    libraw1394 2.1.2-3
+    librsvg 2:2.57.0-1
+    libsasl 2.1.28-4
+    libseccomp 2.5.4-2
+    libsecret 0.21.1-1
+    libsm 1.2.4-1
+    libsndfile 1.2.2-2
+    libsodium 1.0.19-2
+    libsoup3 3.4.4-1
+    libsoxr 0.1.3-3
+    libssh 0.10.5-1
+    libssh2 1.11.0-1small
+    libstemmer 2.2.0-2
+    libsysprof-capture 45.1-1
+    libtasn1 4.19.0-1
+    libteam 1.32-1
+    libthai 0.1.29-3
+    libtheora 1.1.1-6
+    libtiff 4.6.0-2
+    libtirpc 1.3.4-1
+    libtool 2.4.7+4+g1ec8fa28-6
+    libunibreak 5.1-1
+    libunistring 1.1-2
+    libunwind 1.7.2-1
+    libusb 1.0.26-2
+    libusbmuxd 2.0.2-3
+    libutempter 1.2.1-4
+    libva 2.20.0-1
+    libvdpau 1.5-2
+    libverto 0.3.2-4
+    libvorbis 1.3.7-3
+    libvpx 1.13.1-1
+    libwacom 2.9.0-1
+    libwebp 1.3.2-1
+    libx11 1.8.7-1
+    libx86emu 3.5-3
+    libxau 1.0.11-2
+    libxaw 1.0.15-1
+    libxcb 1.16-1
+    libxcomposite 0.4.6-1
+    libxcrypt 4.4.36-1
+    libxcursor 1.2.1-3
+    libxcvt 0.1.2-1
+    libxdamage 1.1.6-1
+    libxdg-basedir 1.2.3-2
+    libxdmcp 1.1.4-2
+    libxext 1.3.5-1
+    libxfixes 6.0.1-1
+    libxfont2 2.0.6-2
+    libxft 2.3.8-1
+    libxi 1.8.1-1
+    libxinerama 1.1.5-1
+    libxkbcommon 1.6.0-1
+    libxkbcommon-x11 1.6.0-1
+    libxkbfile 1.1.2-1
+    libxklavier 5.4-5
+    libxml2 2.12.1-1
+    libxmu 1.1.4-1
+    libxpm 3.5.17-1
+    libxrandr 1.5.4-1
+    libxrender 0.9.11-1
+    libxshmfence 1.3.2-1
+    libxss 1.2.4-1
+    libxt 1.3.0-1
+    libxtst 1.2.4-1
+    libxv 1.0.12-1
+    libxxf86vm 1.1.5-1
+    libyaml 0.2.5-2
+    licenses 20231011-1
+    lightdm 1:1.32.0-4
+    lightdm-slick-greeter 1.8.2-1
+    lilv 0.24.22-1
+    + linux 6.6.3.arch1-1
+    linux-api-headers 6.4-1
+    + linux-firmware 20231110.74158e7a-1
+    linux-firmware-whence 20231110.74158e7a-1
+    llvm-libs 16.0.6-1
+    + lm_sensors 1:3.6.0.r41.g31d1f125-2
+    lua52 5.2.4-6
+    lua53 5.3.6-2
+    lua53-lgi 0.9.2-10
+    luit 20230201-1
+    lv2 1.18.10-1
+    lz4 1:1.9.4-1
+    lzo 2.10-5
+    m4 1.4.19-3
+    mailcap 2.1.54-1
+    make 4.4.1-2
+    md4c 0.4.8-1
+    mesa 1:23.2.1-2
+    minizip 1:1.3-2
+    mkinitcpio 37-1
+    mkinitcpio-busybox 1.36.1-1
+    mobile-broadband-provider-info 20230416-1
+    mpfr 4.2.1-1
+    mpg123 1.32.3-1
+    mtdev 1.1.6-2
+    + nano 7.2-1
+    ncurses 6.4_20230520-1
+    nettle 3.9.1-1
+    + networkmanager 1.44.2-3
+    npth 1.6-4
+    nspr 4.35-1
+    nss 3.95-1
+    ocl-icd 2.3.2-1
+    onevpl 2023.3.1-1
+    opencore-amr 0.1.6-1
+    openexr 3.2.1-1
+    openjpeg2 2.5.0-3
+    + openssh 9.5p1-1
+    openssl 3.1.4-1
+    opus 1.4-1
+    p11-kit 0.25.3-1
+    pacman 6.0.2-8
+    pacman-mirrorlist 20231001-1
+    pacvis-git 0.2.7.r12.g34f7494-1
+    pam 1.5.3-3
+    pambase 20230918-1
+    pango 1:1.51.1-1
+    patch 2.7.6-10
+    pciutils 3.10.0-1
+    pcre 8.45-4
+    pcre2 10.42-2
+    pcsclite 2.0.1-1
+    perl 5.38.1-1
+    perl-clone 0.46-2
+    perl-encode-locale 1.05-11
+    perl-error 0.17029-5
+    perl-file-listing 6.16-2
+    perl-html-parser 3.81-2
+    perl-html-tagset 3.20-14
+    perl-http-cookiejar 0.014-1
+    perl-http-cookies 6.10-4
+    perl-http-daemon 6.16-2
+    perl-http-date 6.06-1
+    perl-http-message 6.45-1
+    perl-http-negotiate 6.01-12
+    perl-io-html 1.004-4
+    perl-libwww 6.72-1
+    perl-lwp-mediatypes 6.04-4
+    perl-mailtools 2.21-7
+    perl-net-http 6.23-2
+    perl-timedate 2.33-5
+    perl-try-tiny 0.31-3
+    perl-uri 5.21-1
+    perl-www-robotrules 6.02-12
+    perl-xml-parser 2.46-5
+    perl-xml-writer 0.900-2
+    pinentry 1.2.1-3
+    pipewire 1:1.0.0-1
+    pipewire-audio 1:1.0.0-1
+    pipewire-jack 1:1.0.0-1
+    pipewire-media-session 1:0.4.2-2
+    pixman 0.42.2-1
+    pkgconf 2.0.3-1
+    polkit 123-1
+    popt 1.19-1
+    portaudio 1:19.7.0-2
+    procps-ng 4.0.4-2
+    psmisc 23.6-1
+    pyalpm 0.10.6-5
+    python 3.11.6-1
+    python-annotated-types 0.6.0-1
+    python-autocommand 2.2.2-4
+    python-fastjsonschema 2.19.0-1
+    python-inflect 7.0.0-2
+    python-jaraco.context 4.3.0-3
+    python-jaraco.functools 3.9.0-1
+    python-jaraco.text 3.11.1-3
+    python-more-itertools 10.1.0-1
+    python-ordered-set 4.1.0-4
+    python-packaging 23.2-1
+    python-platformdirs 4.0.0-1
+    python-pydantic 2.5.2-1
+    python-pydantic-core 1:2.14.5-1
+    python-setuptools 1:68.2.0-1
+    python-tomli 2.0.1-3
+    python-tornado 6.3.2-1
+    python-trove-classifiers 2023.11.29-1
+    python-typing_extensions 4.8.0-1
+    python-validate-pyproject 0.13-1
+    qt5-base 5.15.11+kde+r147-1
+    qt5-translations 5.15.11-1
+    qt6-5compat 6.6.1-1
+    qt6-base 6.6.1-1
+    qt6-multimedia 6.6.1-1
+    qt6-multimedia-ffmpeg 6.6.1-1
+    qt6-svg 6.6.1-1
+    qt6-translations 6.6.1-1
+    rav1e 0.6.6-3
+    readline 8.2.007-1
+    sbc 2.0-1
+    sdl2 2.28.5-1
+    sed 4.9-3
+    serd 0.32.0-1
+    shadow 4.14.2-1
+    shared-mime-info 2.4-1
+    slang 2.3.3-2
+    snappy 1.1.10-1
+    sord 0.16.16-1
+    sound-theme-freedesktop 0.8-5
+    spandsp 0.0.6-5
+    speex 1.2.1-1
+    speexdsp 1.2.1-1
+    sqlite 3.44.2-2
+    sratom 0.6.16-1
+    srt 1.5.3-1
+    startup-notification 0.12-8
+    sudo 1.9.15.p2-1
+    svt-av1 1.7.0-1
+    systemd 254.6-2
+    systemd-libs 254.6-2
+    systemd-sysvcompat 254.6-2
+    tar 1.35-2
+    + tcpdump 4.99.4-1
+    tdb 1.4.9-1
+    texinfo 7.1-2
+    tpm2-tss 4.0.1-1
+    tracker3 3.6.0-1
+    tslib 1.22-1
+    tzdata 2023c-2
+    upower 1.90.2-1
+    usbmuxd 1.1.1-3
+    util-linux 2.39.2-2
+    util-linux-libs 2.39.2-2
+    v4l-utils 1.24.1-2
+    vid.stab 1.1.1-1
+    vmaf 2.3.1-1
+    vulkan-headers 1:1.3.269-1
+    vulkan-icd-loader 1.3.269-1
+    wayland 1.22.0-1
+    webrtc-audio-processing-1 1.3-2
+    wget 1.21.4-1
+    which 2.21-6
+    wireshark-cli 4.2.0-2
+    + wireshark-qt 4.2.0-2
+    wpa_supplicant 2:2.10-8
+    x264 3:0.164.r3108.31e19f9-1
+    x265 3.5-3
+    xapp 2.8.0-1
+    xbitmaps 1.1.3-1
+    xcb-proto 1.16.0-1
+    xcb-util 0.4.1-1
+    xcb-util-cursor 0.1.5-1
+    xcb-util-image 0.4.1-2
+    xcb-util-keysyms 0.4.1-4
+    xcb-util-renderutil 0.3.10-1
+    xcb-util-wm 0.4.2-1
+    xcb-util-xrm 1.3-2
+    xdg-utils 1.2.0r17+g21fb316-1
+    xf86-input-libinput 1.4.0-1
+    xkb-switch 1.8.5-1
+    + xkeyboard-config 2.40-1
+    xorg-appres 1.0.6-1
+    xorg-fonts-encodings 1.0.7-1small
+    xorg-xmessage 1.0.6-1
+    xorg-xmodmap 1.0.11-1
+    xorg-xprop 1.2.6-1
+    xorg-xrdb 1.2.2-1
+    xorg-xset 1.2.5-1
+    xorgproto 2023.2-1
+    xscreensaver 6.08-1
+    + xterm 388-1
+    xvidcore 1.3.7-2
+    xz 5.4.5-1
+    + yay-git 12.2.0.r1.g643830f-1
+    zeromq 4.3.5-2
+    zimg 3.0.5-1
+    zix 0.4.2-2
+    zlib 1:1.3-2
+    zstd 1.5.5-1
+    \end{lstlisting}
+  \end{tiny}
+\end{multicols}
+
+\printbibliography[title=Referenser]
+% that's all folks
+\end{document}
+

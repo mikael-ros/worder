@@ -1,22 +1,19 @@
+
+
 use std::collections::HashMap;
-use crate::counter;
-struct standard_counter{
-    content : Option<String>,
+use crate::counter::Counter;
+pub struct StandardCounter {
+    pub content : String,
 }
 
-impl standard_counter{
-    fn new() -> standard_counter{
-        standard_counter{content: None}
-    }
-}
-impl counter for standard_counter{
+impl Counter for StandardCounter {
     fn word_counter_helper(&self) {
         let mut amounts = HashMap::new();
 
-        for line in self.content.get().lines(){
+        for line in self.content.lines(){
             for word in line.split(" "){
-                if amounts.get(word).copied().unwrap_or(0) == 0 {
-                    amounts.insert(word, self.word_counter(word, self.content.get()));
+                if amounts.get(&word).copied().unwrap_or(0) == 0  {
+                    amounts.insert(word, self.word_counter(&word, &self.content));
                 }
             }
         }
@@ -31,7 +28,7 @@ impl counter for standard_counter{
         println!("{}", sum);
     }
 
-    fn word_counter(term: &str, content: &String) -> i32 {
+    fn word_counter(&self, term: &str, content: &String) -> i32 {
         let mut counter = 0;
         for line in content.lines(){
             for word in line.split(" "){
