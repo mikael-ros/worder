@@ -8,7 +8,7 @@ Given that this is a tiny hobby thing, I'm not going to spend too much time on h
 ### Usage
 With Rust installed, run (in the directory):
 
-cargo run <file to be word-counted>
+cargo run [file to be word-counted]
 
 ### Output
 The program should spit out a list of words sorted by frequency, then a number that corresponds to the total word count.
